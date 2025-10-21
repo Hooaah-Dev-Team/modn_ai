@@ -1,6 +1,9 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
+import { Work_Sans } from "next/font/google";
+
+const workSans = Work_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,8 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased">{children}</body>
+    <html lang="ko">
+      <body className={`${workSans.className} antialiased`}>
+        {children}
+        <div className="h-5" />
+      </body>
     </html>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 
-import { VoiceInputButton } from "@/components/VoiceInputButton";
 import { useState } from "react";
+
+import { VoiceInputButton } from "@/components/VoiceInputButton";
 
 export default function VoiceInputPage() {
   const [inputText, setInputText] = useState("");

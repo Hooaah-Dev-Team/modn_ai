@@ -2,21 +2,31 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-50 to-blue-100 p-4">
-      <div className="text-center">
-        <h1 className="mb-6 text-5xl font-bold text-gray-800">
-          Welcome to MODN AI
+    <div>
+      <main className="flex w-full flex-col items-center">
+        <div className="h-16" />
+        <h1 className="text-2xl leading-snug font-bold text-[#121417]">
+          상품 상세페이지 만들기
         </h1>
-        <p className="mb-8 text-xl text-gray-600">
-          음성 인식 기능을 체험해보세요
-        </p>
+        <div className="h-44" />
+        <p className="text-xl leading-tight">어떻게 시작할까요?</p>
+        <div className="h-28" />
         <Link
           href="/voice-input"
-          className="inline-block rounded-lg bg-blue-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-colors hover:bg-blue-700 hover:shadow-xl"
+          className="flex h-12 w-48 items-center justify-center rounded-full bg-[#0A80ED]"
         >
-          음성 입력 데모 시작하기 →
+          <span className="leading-normal font-bold text-white">녹음하기</span>
         </Link>
-      </div>
+        <div className="h-3" />
+        <Link
+          href="/text-input"
+          className="flex h-12 w-48 items-center justify-center rounded-full bg-[#F2F2F5]"
+        >
+          <span className="leading-normal font-bold text-[#121417]">
+            글쓰기
+          </span>
+        </Link>
+      </main>
     </div>
   );
 }
