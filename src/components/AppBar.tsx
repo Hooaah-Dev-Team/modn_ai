@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import ArrowBack from "../../public/arrow-back.svg";
-import Close from "../../public/close.svg";
+import ArrowBack from "@/assets/icons/arrow-back.svg";
+import Close from "@/assets/icons/close.svg";
 
 export enum AppBarType {
   back,
@@ -14,26 +14,31 @@ export enum AppBarType {
 interface AppBarProps {
   title: string;
   type?: AppBarType;
+  onClose?: () => void;
 }
 
-export const AppBar = ({ title, type = AppBarType.back }: AppBarProps) => {
+export const AppBar = ({
+  title,
+  type = AppBarType.back,
+  onClose,
+}: AppBarProps) => {
   const router = useRouter();
 
   return (
-    <header className="flex w-full items-center justify-between px-4 pt-4 pb-2">
+    <header className="flex w-full items-center justify-between px-2 pt-4 pb-2">
       <button
-        className="flex h-12 w-6 cursor-pointer items-center justify-center"
-        onClick={() => router.back()}
+        className="flex cursor-pointer items-center justify-center p-2"
+        onClick={() => (onClose ? onClose() : router.back())}
       >
         <Image
           src={type === AppBarType.back ? ArrowBack : Close}
           alt={type === AppBarType.back ? "Back" : "Close"}
         />
       </button>
-      <span className="text-lg leading-normal font-bold text-[#121417]">
+      <span className="text-center text-lg leading-normal font-bold text-[#121417]">
         {title}
       </span>
-      <div className="h-12 w-6" />
+      <div className="h-12 w-10" />
     </header>
   );
 };

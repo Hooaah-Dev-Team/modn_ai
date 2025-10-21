@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+
+import micIcon from "@/assets/icons/mic.svg";
 import { useVoiceRecording } from "@/hooks/useVoiceRecording";
 import { cn } from "@/utils/cn";
 
@@ -7,39 +10,30 @@ interface VoiceInputButtonProps {
   onTranscriptionComplete: (text: string) => void;
   onError?: (error: string) => void;
   className?: string;
-  size?: "sm" | "md" | "lg";
 }
 
 export function VoiceInputButton({
   onTranscriptionComplete,
   onError,
   className,
-  size = "md",
 }: VoiceInputButtonProps) {
   const { isRecording, isLoading, toggleRecording } = useVoiceRecording({
     onTranscriptionComplete,
     onError,
   });
 
-  const sizeClasses = {
-    sm: "w-10 h-10",
-    md: "w-14 h-14",
-    lg: "w-20 h-20",
-  };
-
   return (
     <button
       onClick={toggleRecording}
       disabled={isLoading}
       className={cn(
-        "flex items-center justify-center rounded-full transition-all duration-200",
+        "my-5 flex items-center justify-center rounded-full p-4 transition-all duration-200",
         "shadow-lg hover:shadow-xl",
         "disabled:cursor-not-allowed disabled:opacity-50",
-        sizeClasses[size],
         isRecording
           ? "animate-pulse bg-red-500 hover:bg-red-600"
           : "bg-blue-500 hover:bg-blue-600",
-        isLoading && "cursor-wait opacity-50",
+        isLoading && "cursor-wait pr-4 opacity-50",
         className,
       )}
       aria-label={isRecording ? "녹음 중지" : "녹음 시작"}
@@ -67,18 +61,12 @@ export function VoiceInputButton({
           />
         </svg>
       ) : (
-        <svg
-          className="h-6 w-6 text-white"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"
-            clipRule="evenodd"
-          />
-        </svg>
+        <div className="flex gap-4">
+          <Image src={micIcon} alt="Mic Icon" />
+          <span className="pr-2 leading-normal font-bold text-white">
+            {isRecording ? "중지" : "말하기"}
+          </span>
+        </div>
       )}
     </button>
   );

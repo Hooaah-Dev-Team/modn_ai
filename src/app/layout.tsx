@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const workSans = Work_Sans({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className={`${workSans.className} antialiased`}>
         {children}
         <div className="h-5" />
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );
