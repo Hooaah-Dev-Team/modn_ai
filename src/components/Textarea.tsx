@@ -1,4 +1,10 @@
-import { forwardRef, useId, useImperativeHandle, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useRef,
+} from "react";
 
 interface TextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> {
@@ -7,18 +13,42 @@ interface TextareaProps
 }
 
 const sizeClasses = {
-  sm: { height: "calc(3rem-4px)", maxHeight: "calc(12rem)" },
-  md: { height: "calc(4.5rem-4px)", maxHeight: "calc(15rem)" },
-  lg: { height: "calc(9rem-4px)", maxHeight: "calc(20rem)" },
-  xl: { height: "calc(20rem-4px)", maxHeight: "calc(30rem)" },
+  sm: "min-h-[calc(3rem-4px)] max-h-[12rem]",
+  md: "min-h-[calc(4.5rem-4px)] max-h-[15rem]",
+  lg: "min-h-[calc(9rem-4px)] max-h-[20rem]",
+  xl: "min-h-[calc(20rem-4px)] max-h-[30rem]",
 };
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ title, size = "sm", ...rest }, forwardedRef) => {
+  ({ title, size = "sm", ...rest }, ref) => {
     const id = useId();
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const innerRef = useRef<HTMLTextAreaElement>(null);
 
-    useImperativeHandle(forwardedRef, () => textareaRef.current!);
+    // forwardRef와 내부 ref를 모두 사용하기 위해 useImperativeHandle 사용
+    useImperativeHandle(ref, () => innerRef.current as HTMLTextAreaElement);
+
+    const adjustHeight = () => {
+      const textarea = innerRef.current;
+      if (textarea) {
+        // 높이를 초기화하여 scrollHeight를 정확히 계산
+        textarea.style.height = "auto";
+        // scrollHeight에 맞춰 높이 조절 (max-height는 CSS로 제한됨)
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    };
+
+    useEffect(() => {
+      // 초기 렌더링 시 높이 조절
+      adjustHeight();
+    }, []);
+
+    const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+      adjustHeight();
+      // 기존 onInput 핸들러가 있다면 호출
+      if (rest.onInput) {
+        rest.onInput(e);
+      }
+    };
 
     return (
       <div className="flex flex-col gap-2">
@@ -29,13 +59,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {title}
         </label>
         <textarea
-          ref={textareaRef}
+          ref={innerRef}
           id={id}
-          className="resize-none overflow-y-auto rounded-lg border-2 border-[#DBE0E5] bg-white p-2 text-base leading-normal outline-none focus:border-[#121417]"
-          style={{
-            height: sizeClasses[size].height,
-            maxHeight: sizeClasses[size].maxHeight,
-          }}
+          className={`resize-none rounded-lg border-2 border-[#DBE0E5] bg-white p-2 outline-none focus:border-[#121417] ${sizeClasses[size]} overflow-y-auto text-base leading-normal`}
+          onInput={handleInput}
           {...rest}
         />
       </div>
