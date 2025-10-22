@@ -216,24 +216,30 @@ export default function VoiceInputPage() {
 
     if (step === 1) {
       // Part1 데이터 처리
-      if (data.companyName) setCompanyName(data.companyName);
+      if (data.company) setCompanyName(data.company);
       if (data.productName) setProductName(data.productName);
-      if (data.feature1Title) setFeature1Title(data.feature1Title);
-      if (data.feature1Desc) setFeature1Desc(data.feature1Desc);
-      if (data.feature2Title) setFeature2Title(data.feature2Title);
-      if (data.feature2Desc) setFeature2Desc(data.feature2Desc);
-      if (data.feature3Title) setFeature3Title(data.feature3Title);
-      if (data.feature3Desc) setFeature3Desc(data.feature3Desc);
+      if (data.productKeyword1) setFeature1Title(data.productKeyword1);
+      if (data.productKeywordDescription1)
+        setFeature1Desc(data.productKeywordDescription1);
+      if (data.productKeyword2) setFeature2Title(data.productKeyword2);
+      if (data.productKeywordDescription2)
+        setFeature2Desc(data.productKeywordDescription2);
+      if (data.productKeyword3) setFeature3Title(data.productKeyword3);
+      if (data.productKeywordDescription3)
+        setFeature3Desc(data.productKeywordDescription3);
     } else if (step === 3) {
       // Part2 데이터 처리
-      if (data.producerInfo) setProducerInfo(data.producerInfo);
-      if (data.motivation) setMotivation(data.motivation);
-      if (data.secret) setSecret(data.secret);
+      if (data.introduction) setProducerInfo(data.introduction);
+      if (data.story) setMotivation(data.story);
+      if (data.storyDescription) setSecret(data.storyDescription);
     } else if (step === 5) {
       // Part3 데이터 처리
-      if (data.example1) setExample1(data.example1);
-      if (data.example2) setExample2(data.example2);
-      if (data.example3) setExample3(data.example3);
+      if (data.productguide1) setExample1(data.productguide1);
+      if (data.productguide2) setExample2(data.productguide2);
+      if (data.productguide3) setExample3(data.productguide3);
+      if (data.category) setCategory(data.category);
+      if (data.productSpecification) setSpec(data.productSpecification);
+      if (data.productDeliverInfo) setDelivery(data.productDeliverInfo);
     }
 
     goToNextStep();

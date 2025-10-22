@@ -69,22 +69,25 @@ export const useVoiceRecording = ({
         }
 
         // 2단계: 변환된 텍스트를 지정된 엔드포인트로 전송
-        const finalResponse = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const finalResponse = await fetch(
+          process.env.NEXT_PUBLIC_DURUMO_BACKEND_BASE + endpoint,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ voiceText: transcribedText }),
           },
-          body: JSON.stringify({ voiceText: transcribedText }),
-        });
+        );
 
         if (!finalResponse.ok) {
           throw new Error(`API 오류: ${finalResponse.status}`);
         }
 
         const result = await finalResponse.json();
-
+        console.log(result);
         if (result) {
-          onTranscriptionComplete?.(result);
+          onTranscriptionComplete?.(result.data);
         }
       } catch (error) {
         console.error("음성 처리 오류:", error);

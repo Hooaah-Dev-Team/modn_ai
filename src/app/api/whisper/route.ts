@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 백엔드 URL 가져오기
-    const backendUrl = process.env.DURUMO_BACKEND_BASE;
+    const backendUrl = process.env.NEXT_PUBLIC_DURUMO_BACKEND_BASE;
     if (!backendUrl) {
       return NextResponse.json(
         { error: "백엔드 URL이 설정되지 않았습니다." },
