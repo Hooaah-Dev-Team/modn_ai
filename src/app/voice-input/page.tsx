@@ -396,13 +396,13 @@ export default function VoiceInputPage() {
       <div className="h-5" />
       <div className="flex justify-between py-3">
         <button
-          className="w-20 rounded-full bg-[#F0F2F5] py-3 font-medium outline-none"
+          className="w-20 rounded-full bg-[#F0F2F5] py-3 font-medium outline-none focus:ring-2 focus:ring-[#121417] focus:ring-offset-2"
           onClick={goToPrevStep}
         >
           <span className="font-bold text-[#121417]">이전</span>
         </button>
         <button
-          className="w-20 rounded-full bg-[#0A80ED] py-2 font-medium text-white outline-none"
+          className="w-20 rounded-full bg-[#0A80ED] py-2 font-medium text-white outline-none focus:ring-2 focus:ring-[#0A80ED] focus:ring-offset-2"
           onClick={goToNextStep}
         >
           <span className="font-bold text-white">다음</span>
@@ -459,13 +459,13 @@ export default function VoiceInputPage() {
       <div className="h-5" />
       <div className="flex justify-between py-3">
         <button
-          className="w-20 rounded-full bg-[#F0F2F5] py-3 font-medium outline-none"
+          className="w-20 rounded-full bg-[#F0F2F5] py-3 font-medium outline-none focus:ring-2 focus:ring-[#121417] focus:ring-offset-2"
           onClick={goToPrevStep}
         >
           <span className="font-bold text-[#121417]">이전</span>
         </button>
         <button
-          className="w-20 rounded-full bg-[#0A80ED] py-2 font-medium text-white outline-none"
+          className="w-20 rounded-full bg-[#0A80ED] py-2 font-medium text-white outline-none focus:ring-2 focus:ring-[#0A80ED] focus:ring-offset-2"
           onClick={goToNextStep}
         >
           <span className="font-bold text-white">다음</span>
@@ -522,13 +522,13 @@ export default function VoiceInputPage() {
       <div className="h-5" />
       <div className="flex justify-between py-3">
         <button
-          className="w-20 rounded-full bg-[#F0F2F5] py-3 font-medium outline-none"
+          className="w-20 rounded-full bg-[#F0F2F5] py-3 font-medium outline-none focus:ring-2 focus:ring-[#121417] focus:ring-offset-2"
           onClick={goToPrevStep}
         >
           <span className="font-bold text-[#121417]">이전</span>
         </button>
         <button
-          className="w-20 rounded-full bg-[#0A80ED] py-2 font-medium text-white outline-none"
+          className="w-20 rounded-full bg-[#0A80ED] py-2 font-medium text-white outline-none focus:ring-2 focus:ring-[#0A80ED] focus:ring-offset-2"
           onClick={goToNextStep}
         >
           <span className="font-bold text-white">다음</span>
@@ -584,13 +584,13 @@ export default function VoiceInputPage() {
       <div className="h-5" />
       <div className="flex justify-between py-3">
         <button
-          className="w-20 rounded-full bg-[#F0F2F5] py-3 font-medium outline-none"
+          className="w-20 rounded-full bg-[#F0F2F5] py-3 font-medium outline-none focus:ring-2 focus:ring-[#121417] focus:ring-offset-2"
           onClick={goToPrevStep}
         >
           <span className="font-bold text-[#121417]">이전</span>
         </button>
         <button
-          className="w-20 rounded-full bg-[#0A80ED] py-2 font-medium text-white outline-none"
+          className="w-20 rounded-full bg-[#0A80ED] py-2 font-medium text-white outline-none focus:ring-2 focus:ring-[#0A80ED] focus:ring-offset-2"
           onClick={goToNextStep}
         >
           <span className="font-bold text-white">다음</span>
