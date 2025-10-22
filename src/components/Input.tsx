@@ -1,12 +1,9 @@
 import { forwardRef, useId } from "react";
 
-interface InputProps {
+interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   title: string;
   size?: "sm" | "md" | "lg" | "xl";
-  value?: string;
-  onChange?: (value: string) => void;
-  type?: "text" | "email" | "password";
-  placeholder?: string;
 }
 
 const sizeClasses = {
@@ -16,14 +13,8 @@ const sizeClasses = {
   xl: "h-[calc(20rem-4px)]",
 };
 
-export const Input = forwardRef<
-  HTMLInputElement | HTMLTextAreaElement,
-  InputProps
->(
-  (
-    { title, size = "sm", value, onChange, type = "text", placeholder },
-    ref,
-  ) => {
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ title, size = "sm", ...rest }, ref) => {
     const id = useId();
 
     return (
@@ -34,25 +25,12 @@ export const Input = forwardRef<
         >
           {title}
         </label>
-        {type === "text" || type === "email" || type === "password" ? (
-          <input
-            ref={ref as React.Ref<HTMLInputElement>}
-            id={id}
-            type={type}
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder={placeholder}
-            className={`rounded-lg border-2 border-[#DBE0E5] bg-white p-3 text-base leading-normal outline-none focus:border-[#121417] ${sizeClasses[size]}`}
-          />
-        ) : (
-          <textarea
-            ref={ref as React.Ref<HTMLTextAreaElement>}
-            id={id}
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            className={`resize-none rounded-lg border-2 border-[#DBE0E5] bg-white p-2 outline-none focus:border-[#121417] ${sizeClasses[size]} text-base leading-normal`}
-          />
-        )}
+        <input
+          ref={ref as React.Ref<HTMLInputElement>}
+          id={id}
+          className={`rounded-lg border-2 border-[#DBE0E5] bg-white p-3 text-base leading-normal outline-none focus:border-[#121417] ${sizeClasses[size]}`}
+          {...rest}
+        />
       </div>
     );
   },

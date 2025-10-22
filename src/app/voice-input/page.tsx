@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 import { AppBar, AppBarType } from "@/components/AppBar";
 import { Checklist } from "@/components/Checklist";
-import { Input } from "@/components/Input";
+import { Textarea } from "@/components/Textarea";
 import { VoiceInputButton } from "@/components/VoiceInputButton";
 import { cn } from "@/utils/cn";
 
@@ -214,7 +214,7 @@ export default function VoiceInputPage() {
 
   const handleError = (error: string) => {
     toast.error(error);
-    goToNextStep();
+    // goToNextStep();
   };
 
   const isRecordPage = step === 1 || step === 3 || step === 5;
@@ -271,67 +271,67 @@ export default function VoiceInputPage() {
         1.제품 기본 정보
       </h1>
       <div className="py-3">
-        <Input
+        <Textarea
           ref={companyNameRef}
           title="1.회사 이름"
           value={companyName}
-          onChange={setCompanyName}
+          onChange={(e) => setCompanyName(e.currentTarget.value)}
         />
       </div>
       <div className="py-3">
-        <Input
+        <Textarea
           ref={productNameRef}
           title="2.제품명"
           value={productName}
-          onChange={setProductName}
+          onChange={(e) => setProductName(e.currentTarget.value)}
         />
       </div>
       <h2 className="mt-5 mb-3 text-2xl leading-normal font-bold text-[#121417]">
         2.핵심 특징 키워드 3가지
       </h2>
       <div className="py-3">
-        <Input
+        <Textarea
           ref={feature1TitleRef}
           title="🙌 핵심특징 1"
           value={feature1Title}
-          onChange={setFeature1Title}
+          onChange={(e) => setFeature1Title(e.currentTarget.value)}
         />
-        <Input
+        <Textarea
           ref={feature1DescRef}
           title="🙌 설명글"
           size="md"
           value={feature1Desc}
-          onChange={setFeature1Desc}
+          onChange={(e) => setFeature1Desc(e.currentTarget.value)}
         />
       </div>
       <div className="py-3">
-        <Input
+        <Textarea
           ref={feature2TitleRef}
           title="🙌 핵심특징 2"
           value={feature2Title}
-          onChange={setFeature2Title}
+          onChange={(e) => setFeature2Title(e.currentTarget.value)}
         />
-        <Input
+        <Textarea
           ref={feature2DescRef}
           title="🙌 설명글"
           size="md"
           value={feature2Desc}
-          onChange={setFeature2Desc}
+          onChange={(e) => setFeature2Desc(e.currentTarget.value)}
         />
       </div>
       <div className="py-3">
-        <Input
+        <Textarea
           ref={feature3TitleRef}
           title="🙌 핵심특징 3"
           value={feature3Title}
-          onChange={setFeature3Title}
+          onChange={(e) => setFeature3Title(e.currentTarget.value)}
         />
-        <Input
+        <Textarea
           ref={feature3DescRef}
           title="🙌 설명글"
           size="md"
           value={feature3Desc}
-          onChange={setFeature3Desc}
+          onChange={(e) => setFeature3Desc(e.currentTarget.value)}
         />
       </div>
       <div className="h-5" />
@@ -371,29 +371,29 @@ export default function VoiceInputPage() {
       </h1>
       <div className="flex-1">
         <div className="py-3">
-          <Input
+          <Textarea
             ref={producerInfoRef}
             title="1.생산자 이야기/철학 한 줄"
             value={producerInfo}
-            onChange={setProducerInfo}
+            onChange={(e) => setProducerInfo(e.currentTarget.value)}
           />
         </div>
         <div className="py-3">
-          <Input
+          <Textarea
             ref={motivationRef}
             title="2.한 줄을 뒷받침하는 스토리"
             size="xl"
             value={motivation}
-            onChange={setMotivation}
+            onChange={(e) => setMotivation(e.currentTarget.value)}
           />
         </div>
         <div className="py-3">
-          <Input
+          <Textarea
             ref={secretRef}
             title="3.비법/노력"
             size="lg"
             value={secret}
-            onChange={setSecret}
+            onChange={(e) => setSecret(e.currentTarget.value)}
           />
         </div>
       </div>
@@ -433,30 +433,30 @@ export default function VoiceInputPage() {
       </h1>
       <div className="flex-1">
         <div className="py-3">
-          <Input
+          <Textarea
             ref={example1Ref}
             title="1.예시1"
             size="md"
             value={example1}
-            onChange={setExample1}
+            onChange={(e) => setExample1(e.currentTarget.value)}
           />
         </div>
         <div className="py-3">
-          <Input
+          <Textarea
             ref={example2Ref}
             title="2.예시2"
             size="md"
             value={example2}
-            onChange={setExample2}
+            onChange={(e) => setExample2(e.currentTarget.value)}
           />
         </div>
         <div className="py-3">
-          <Input
+          <Textarea
             ref={example3Ref}
             title="3.예시3"
             size="md"
             value={example3}
-            onChange={setExample3}
+            onChange={(e) => setExample3(e.currentTarget.value)}
           />
         </div>
       </div>
@@ -496,29 +496,29 @@ export default function VoiceInputPage() {
       </h1>
       <div className="flex-1">
         <div className="py-3">
-          <Input
+          <Textarea
             ref={categoryRef}
             title="1.제품 카테고리"
             value={category}
-            onChange={setCategory}
+            onChange={(e) => setCategory(e.currentTarget.value)}
           />
         </div>
         <div className="py-3">
-          <Input
+          <Textarea
             ref={specRef}
             title="2.제품 스펙"
             size="lg"
             value={spec}
-            onChange={setSpec}
+            onChange={(e) => setSpec(e.currentTarget.value)}
           />
         </div>
         <div className="py-3">
-          <Input
+          <Textarea
             ref={deliveryRef}
             title="3.배송 정보"
             size="lg"
             value={delivery}
-            onChange={setDelivery}
+            onChange={(e) => setDelivery(e.currentTarget.value)}
           />
         </div>
       </div>

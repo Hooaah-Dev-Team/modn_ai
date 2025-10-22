@@ -1,18 +1,18 @@
 "use client";
 
+import { AppBar, AppBarType } from "@/components/AppBar";
+import { Input } from "@/components/Input";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { AppBar, AppBarType } from "@/components/AppBar";
-import { Input } from "@/components/Input";
 
 export default function EmailInputPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  const nameRef = useRef<HTMLTextAreaElement>(null);
-  const emailRef = useRef<HTMLTextAreaElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const validateForm = () => {
     if (!name.trim()) {
@@ -68,7 +68,7 @@ export default function EmailInputPage() {
             ref={nameRef}
             title=""
             value={name}
-            onChange={setName}
+            onChange={(e) => setName(e.currentTarget.value)}
             placeholder="이름을 입력해 주세요"
             type="text"
           />
@@ -76,7 +76,7 @@ export default function EmailInputPage() {
             ref={emailRef}
             title=""
             value={email}
-            onChange={setEmail}
+            onChange={(e) => setEmail(e.currentTarget.value)}
             placeholder="이메일 주소를 입력해 주세요"
             type="email"
           />
