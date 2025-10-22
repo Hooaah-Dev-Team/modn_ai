@@ -28,8 +28,28 @@ export const useVoiceRecording = ({
       try {
         setIsLoading(true);
 
+        // MIME 타입에 따라 파일 확장자 결정
+        let extension = "webm";
+        if (audioBlob.type.includes("mp4")) {
+          extension = "m4a";
+        } else if (audioBlob.type.includes("ogg")) {
+          extension = "ogg";
+        } else if (audioBlob.type.includes("wav")) {
+          extension = "wav";
+        }
+
+        console.log("전송할 오디오:", {
+          type: audioBlob.type,
+          size: audioBlob.size,
+          extension: extension,
+        });
+
         const formData = new FormData();
-        formData.append("audioData", audioBlob, `audio_${Date.now()}.webm`);
+        formData.append(
+          "audioData",
+          audioBlob,
+          `audio_${Date.now()}.${extension}`,
+        );
 
         // 1단계: Whisper API로 음성을 텍스트로 변환
         const whisperResponse = await fetch("/api/whisper", {
@@ -90,9 +110,21 @@ export const useVoiceRecording = ({
       streamRef.current = stream;
       audioChunksRef.current = [];
 
+      // 브라우저가 지원하는 오디오 형식 확인
+      let mimeType = "audio/webm";
+      if (MediaRecorder.isTypeSupported("audio/mp4")) {
+        mimeType = "audio/mp4";
+      } else if (MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) {
+        mimeType = "audio/webm;codecs=opus";
+      } else if (MediaRecorder.isTypeSupported("audio/ogg;codecs=opus")) {
+        mimeType = "audio/ogg;codecs=opus";
+      }
+
+      console.log("사용할 오디오 형식:", mimeType);
+
       // MediaRecorder 생성
       const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: "audio/webm",
+        mimeType: mimeType,
       });
 
       mediaRecorderRef.current = mediaRecorder;
@@ -107,7 +139,7 @@ export const useVoiceRecording = ({
       // 녹음 중지 시 처리
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, {
-          type: "audio/webm",
+          type: mimeType,
         });
 
         // 오디오 품질 체크 (최소 크기)

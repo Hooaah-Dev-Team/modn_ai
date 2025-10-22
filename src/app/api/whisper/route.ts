@@ -32,12 +32,13 @@ export async function POST(request: NextRequest) {
 
     // 백엔드로 전달할 FormData 생성
     const backendFormData = new FormData();
-    // 백엔드가 기대하는 필드명 시도: audio
-    backendFormData.append("audio", audioFile, audioFile.name);
+    // Flutter에서 사용하는 것과 동일한 필드명 사용
+    backendFormData.append("audioData", audioFile, audioFile.name);
 
     console.log("===== 백엔드로 전송 시작 =====");
     console.log("URL:", `${backendUrl}/openai/whisper`);
-    console.log("필드명: audio");
+    console.log("필드명: audioData");
+    console.log("파일 타입:", audioFile.type);
     console.log("============================");
 
     // 백엔드 Whisper API로 전송
