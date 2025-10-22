@@ -41,13 +41,11 @@ export default function LoadingDesignPage() {
         onClose={handleBack}
       />
 
-      <main className="flex flex-1 flex-col items-center justify-center px-4">
+      <main className="mt-40 flex flex-1 flex-col items-center px-4">
         {/* 메인 텍스트 */}
         <div className="text-center">
           <h1 className="mb-4 text-2xl font-bold text-[#121417]">
-            {isComplete
-              ? "제출이 완료되었습니다."
-              : "최종 디자인을 진행중입니다.."}
+            최종 디자인을 진행중입니다..
           </h1>
 
           <div className="space-y-1 text-[#6B7684]">

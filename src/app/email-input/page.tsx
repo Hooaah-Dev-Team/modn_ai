@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { AppBar, AppBarType } from "@/components/AppBar";
 import { Input } from "@/components/Input";
 
@@ -10,11 +11,35 @@ export default function EmailInputPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleSubmit = () => {
-    if (name.trim() && email.trim()) {
-      // TODO: 이메일 전송 로직
-      router.push("/");
+  const nameRef = useRef<HTMLTextAreaElement>(null);
+  const emailRef = useRef<HTMLTextAreaElement>(null);
+
+  const validateForm = () => {
+    if (!name.trim()) {
+      toast.error("이름을 입력해주세요");
+      nameRef.current?.focus();
+      return false;
     }
+    if (!email.trim()) {
+      toast.error("이메일 주소를 입력해주세요");
+      emailRef.current?.focus();
+      return false;
+    }
+    // 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("올바른 이메일 주소를 입력해주세요");
+      emailRef.current?.focus();
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (!validateForm()) return;
+
+    // TODO: 이메일 전송 로직
+    router.push("/submission-complete");
   };
 
   return (
@@ -25,7 +50,7 @@ export default function EmailInputPage() {
         onClose={() => router.back()}
       />
 
-      <main className="flex flex-1 flex-col px-4 pb-4">
+      <main className="mt-20 flex flex-1 flex-col px-4 pb-4 text-center">
         {/* 메인 텍스트 */}
         <div className="mt-6 mb-8">
           <h1 className="mb-3 text-2xl font-bold text-[#121417]">
@@ -40,14 +65,16 @@ export default function EmailInputPage() {
         {/* 입력 필드들 */}
         <div className="flex-1 space-y-4">
           <Input
-            title="이름"
+            ref={nameRef}
+            title=""
             value={name}
             onChange={setName}
             placeholder="이름을 입력해 주세요"
             type="text"
           />
           <Input
-            title="이메일"
+            ref={emailRef}
+            title=""
             value={email}
             onChange={setEmail}
             placeholder="이메일 주소를 입력해 주세요"
@@ -59,12 +86,7 @@ export default function EmailInputPage() {
         <div className="mt-6">
           <button
             onClick={handleSubmit}
-            disabled={!name.trim() || !email.trim()}
-            className={`h-14 w-full rounded-full font-bold transition-all ${
-              name.trim() && email.trim()
-                ? "bg-[#0A80ED] text-white"
-                : "cursor-not-allowed bg-[#E5E8EB] text-[#B0B8C1]"
-            }`}
+            className="h-14 w-full rounded-full bg-[#0A80ED] font-bold text-white transition-all"
           >
             입력하기
           </button>
