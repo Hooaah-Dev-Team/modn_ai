@@ -1,6 +1,6 @@
 "use client";
 
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -28,6 +28,7 @@ import {
   secretAtom,
   sellerImagesAtom,
   specAtom,
+  stepAtom,
   transcribedTextPart1Atom,
   transcribedTextPart2Atom,
   transcribedTextPart3Atom,
@@ -68,8 +69,66 @@ export default function EmailInputPage() {
   const productUsageImages = useAtomValue(productUsageImagesAtom);
   const customUserText = useAtomValue(customUserTextAtom);
 
+  // Atom setters for reset
+  const setStep = useSetAtom(stepAtom);
+  const setCompanyName = useSetAtom(companyNameAtom);
+  const setProductName = useSetAtom(productNameAtom);
+  const setFeature1Title = useSetAtom(feature1TitleAtom);
+  const setFeature1Desc = useSetAtom(feature1DescAtom);
+  const setFeature2Title = useSetAtom(feature2TitleAtom);
+  const setFeature2Desc = useSetAtom(feature2DescAtom);
+  const setFeature3Title = useSetAtom(feature3TitleAtom);
+  const setFeature3Desc = useSetAtom(feature3DescAtom);
+  const setProducerInfo = useSetAtom(producerInfoAtom);
+  const setMotivation = useSetAtom(motivationAtom);
+  const setSecret = useSetAtom(secretAtom);
+  const setExample1 = useSetAtom(example1Atom);
+  const setExample2 = useSetAtom(example2Atom);
+  const setExample3 = useSetAtom(example3Atom);
+  const setCategory = useSetAtom(categoryAtom);
+  const setSpec = useSetAtom(specAtom);
+  const setDelivery = useSetAtom(deliveryAtom);
+  const setTranscribedTextPart1 = useSetAtom(transcribedTextPart1Atom);
+  const setTranscribedTextPart2 = useSetAtom(transcribedTextPart2Atom);
+  const setTranscribedTextPart3 = useSetAtom(transcribedTextPart3Atom);
+  const setProductDetailImages = useSetAtom(productDetailImagesAtom);
+  const setProductionSiteImages = useSetAtom(productionSiteImagesAtom);
+  const setSellerImages = useSetAtom(sellerImagesAtom);
+  const setProductUsageImages = useSetAtom(productUsageImagesAtom);
+  const setCustomUserText = useSetAtom(customUserTextAtom);
+
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+
+  const resetAllAtoms = () => {
+    // 모든 atom을 초기값으로 리셋
+    setStep(1);
+    setCompanyName("");
+    setProductName("");
+    setFeature1Title("");
+    setFeature1Desc("");
+    setFeature2Title("");
+    setFeature2Desc("");
+    setFeature3Title("");
+    setFeature3Desc("");
+    setProducerInfo("");
+    setMotivation("");
+    setSecret("");
+    setExample1("");
+    setExample2("");
+    setExample3("");
+    setCategory("");
+    setSpec("");
+    setDelivery("");
+    setTranscribedTextPart1("");
+    setTranscribedTextPart2("");
+    setTranscribedTextPart3("");
+    setProductDetailImages([]);
+    setProductionSiteImages([]);
+    setSellerImages([]);
+    setProductUsageImages([]);
+    setCustomUserText("");
+  };
 
   const validateForm = () => {
     if (!name.trim()) {
@@ -143,6 +202,9 @@ export default function EmailInputPage() {
       if (!response.ok) {
         throw new Error("제출에 실패했습니다.");
       }
+
+      // 제출 성공 시 모든 atom 초기화
+      resetAllAtoms();
 
       router.push("/submission-complete");
     } catch (error) {
