@@ -207,6 +207,11 @@ export default function VoiceInputPage() {
     }
   };
 
+  const handleTranscriptionComplete = (text: string) => {
+    console.log(text);
+    goToNextStep();
+  };
+
   const handleError = (error: string) => {
     toast.error(error);
     goToNextStep();
@@ -242,7 +247,7 @@ export default function VoiceInputPage() {
       </div>
       <div className="flex justify-center">
         <VoiceInputButton
-          onTranscriptionComplete={() => goToNextStep()}
+          onTranscriptionComplete={handleTranscriptionComplete}
           onError={handleError}
         />
       </div>
