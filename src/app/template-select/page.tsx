@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AppBar, AppBarType } from "@/components/AppBar";
 
 import BasicIcon from "@/assets/icons/basic.png";
 import EmotionalIcon from "@/assets/icons/emotional.png";
 import VisualIcon from "@/assets/icons/visual.png";
+import { AppBar, AppBarType } from "@/components/AppBar";
 
 const templates = [
   {

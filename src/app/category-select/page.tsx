@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AppBar, AppBarType } from "@/components/AppBar";
 
-import ProduceIcon from "@/assets/icons/produce.png";
-import RetortIcon from "@/assets/icons/retort.png";
 import DrinkIcon from "@/assets/icons/drink.png";
 import LifeIcon from "@/assets/icons/life.png";
+import ProduceIcon from "@/assets/icons/produce.png";
+import RetortIcon from "@/assets/icons/retort.png";
+import { AppBar, AppBarType } from "@/components/AppBar";
 
 const categories = [
   {

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
 import { AppBar, AppBarType } from "@/components/AppBar";
 
 export default function LoadingDesignPage() {

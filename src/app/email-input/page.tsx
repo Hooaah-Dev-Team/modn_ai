@@ -1,10 +1,11 @@
 "use client";
 
-import { AppBar, AppBarType } from "@/components/AppBar";
-import { Input } from "@/components/Input";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+
+import { AppBar, AppBarType } from "@/components/AppBar";
+import { Input } from "@/components/Input";
 
 export default function EmailInputPage() {
   const router = useRouter();
