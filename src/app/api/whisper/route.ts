@@ -5,6 +5,15 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const audioFile = formData.get("audioData") as File;
 
+    console.log("===== Whisper API 요청 수신 =====");
+    console.log("audioFile 존재:", !!audioFile);
+    if (audioFile) {
+      console.log("파일명:", audioFile.name);
+      console.log("파일 타입:", audioFile.type);
+      console.log("파일 크기:", audioFile.size);
+    }
+    console.log("================================");
+
     if (!audioFile) {
       return NextResponse.json(
         { error: "오디오 파일이 없습니다." },
@@ -23,7 +32,13 @@ export async function POST(request: NextRequest) {
 
     // 백엔드로 전달할 FormData 생성
     const backendFormData = new FormData();
-    backendFormData.append("audioData", audioFile);
+    // 백엔드가 기대하는 필드명 시도: audio
+    backendFormData.append("audio", audioFile, audioFile.name);
+
+    console.log("===== 백엔드로 전송 시작 =====");
+    console.log("URL:", `${backendUrl}/openai/whisper`);
+    console.log("필드명: audio");
+    console.log("============================");
 
     // 백엔드 Whisper API로 전송
     const response = await fetch(`${backendUrl}/openai/whisper`, {
@@ -31,11 +46,18 @@ export async function POST(request: NextRequest) {
       body: backendFormData,
     });
 
+    console.log("===== 백엔드 응답 수신 =====");
+    console.log("Status:", response.status);
+    console.log("============================");
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("백엔드 API 오류:", response.status, errorText);
+      console.error("===== 백엔드 API 오류 상세 =====");
+      console.error("Status:", response.status);
+      console.error("Error:", errorText);
+      console.error("================================");
       return NextResponse.json(
-        { error: "음성 인식에 실패했습니다." },
+        { error: "음성 인식에 실패했습니다.", details: errorText },
         { status: response.status },
       );
     }
