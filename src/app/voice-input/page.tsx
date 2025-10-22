@@ -10,6 +10,10 @@ import { Textarea } from "@/components/Textarea";
 import { VoiceInputButton } from "@/components/VoiceInputButton";
 import { cn } from "@/utils/cn";
 
+interface TranscriptionResult {
+  [key: string]: string;
+}
+
 const CHECKLIST_ITEMS = [
   [
     "회사와 상품의 이름은 무엇인가요?",
@@ -207,14 +211,43 @@ export default function VoiceInputPage() {
     }
   };
 
-  const handleTranscriptionComplete = (text: string) => {
-    console.log(text);
+  const handleTranscriptionComplete = (data: TranscriptionResult) => {
+    console.log("Received data:", data);
+
+    if (step === 1) {
+      // Part1 데이터 처리
+      if (data.companyName) setCompanyName(data.companyName);
+      if (data.productName) setProductName(data.productName);
+      if (data.feature1Title) setFeature1Title(data.feature1Title);
+      if (data.feature1Desc) setFeature1Desc(data.feature1Desc);
+      if (data.feature2Title) setFeature2Title(data.feature2Title);
+      if (data.feature2Desc) setFeature2Desc(data.feature2Desc);
+      if (data.feature3Title) setFeature3Title(data.feature3Title);
+      if (data.feature3Desc) setFeature3Desc(data.feature3Desc);
+    } else if (step === 3) {
+      // Part2 데이터 처리
+      if (data.producerInfo) setProducerInfo(data.producerInfo);
+      if (data.motivation) setMotivation(data.motivation);
+      if (data.secret) setSecret(data.secret);
+    } else if (step === 5) {
+      // Part3 데이터 처리
+      if (data.example1) setExample1(data.example1);
+      if (data.example2) setExample2(data.example2);
+      if (data.example3) setExample3(data.example3);
+    }
+
     goToNextStep();
   };
 
   const handleError = (error: string) => {
     toast.error(error);
-    // goToNextStep();
+  };
+
+  const getEndpoint = () => {
+    if (step === 1) return "/openai/hansuwon/part1";
+    if (step === 3) return "/openai/hansuwon/part2";
+    if (step === 5) return "/openai/hansuwon/part3";
+    return "/openai/hansuwon/part1";
   };
 
   const isRecordPage = step === 1 || step === 3 || step === 5;
@@ -249,6 +282,7 @@ export default function VoiceInputPage() {
         <VoiceInputButton
           onTranscriptionComplete={handleTranscriptionComplete}
           onError={handleError}
+          endpoint={getEndpoint()}
         />
       </div>
     </main>

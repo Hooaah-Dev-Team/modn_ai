@@ -6,20 +6,27 @@ import micIcon from "@/assets/icons/mic.svg";
 import { useVoiceRecording } from "@/hooks/useVoiceRecording";
 import { cn } from "@/utils/cn";
 
+interface TranscriptionResult {
+  [key: string]: string;
+}
+
 interface VoiceInputButtonProps {
-  onTranscriptionComplete: (text: string) => void;
+  onTranscriptionComplete: (data: TranscriptionResult) => void;
   onError?: (error: string) => void;
   className?: string;
+  endpoint: string;
 }
 
 export function VoiceInputButton({
   onTranscriptionComplete,
   onError,
   className,
+  endpoint,
 }: VoiceInputButtonProps) {
   const { isRecording, isLoading, toggleRecording } = useVoiceRecording({
     onTranscriptionComplete,
     onError,
+    endpoint,
   });
 
   return (
