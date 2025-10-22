@@ -1,9 +1,30 @@
 "use client";
 
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import toast from "react-hot-toast";
 
+import {
+  categoryAtom,
+  companyNameAtom,
+  deliveryAtom,
+  example1Atom,
+  example2Atom,
+  example3Atom,
+  feature1DescAtom,
+  feature1TitleAtom,
+  feature2DescAtom,
+  feature2TitleAtom,
+  feature3DescAtom,
+  feature3TitleAtom,
+  motivationAtom,
+  producerInfoAtom,
+  productNameAtom,
+  secretAtom,
+  specAtom,
+  stepAtom,
+} from "@/atoms/voiceInputAtoms";
 import { AppBar, AppBarType } from "@/components/AppBar";
 import { Checklist } from "@/components/Checklist";
 import { Textarea } from "@/components/Textarea";
@@ -35,32 +56,32 @@ const CHECKLIST_ITEMS = [
 
 export default function VoiceInputPage() {
   const router = useRouter();
-  const [step, setStep] = useState(1); // 1~7 단계
+  const [step, setStep] = useAtom(stepAtom);
 
   // Step 2 상태
-  const [companyName, setCompanyName] = useState("");
-  const [productName, setProductName] = useState("");
-  const [feature1Title, setFeature1Title] = useState("");
-  const [feature1Desc, setFeature1Desc] = useState("");
-  const [feature2Title, setFeature2Title] = useState("");
-  const [feature2Desc, setFeature2Desc] = useState("");
-  const [feature3Title, setFeature3Title] = useState("");
-  const [feature3Desc, setFeature3Desc] = useState("");
+  const [companyName, setCompanyName] = useAtom(companyNameAtom);
+  const [productName, setProductName] = useAtom(productNameAtom);
+  const [feature1Title, setFeature1Title] = useAtom(feature1TitleAtom);
+  const [feature1Desc, setFeature1Desc] = useAtom(feature1DescAtom);
+  const [feature2Title, setFeature2Title] = useAtom(feature2TitleAtom);
+  const [feature2Desc, setFeature2Desc] = useAtom(feature2DescAtom);
+  const [feature3Title, setFeature3Title] = useAtom(feature3TitleAtom);
+  const [feature3Desc, setFeature3Desc] = useAtom(feature3DescAtom);
 
   // Step 4 상태
-  const [producerInfo, setProducerInfo] = useState("");
-  const [motivation, setMotivation] = useState("");
-  const [secret, setSecret] = useState("");
+  const [producerInfo, setProducerInfo] = useAtom(producerInfoAtom);
+  const [motivation, setMotivation] = useAtom(motivationAtom);
+  const [secret, setSecret] = useAtom(secretAtom);
 
   // Step 6 상태
-  const [example1, setExample1] = useState("");
-  const [example2, setExample2] = useState("");
-  const [example3, setExample3] = useState("");
+  const [example1, setExample1] = useAtom(example1Atom);
+  const [example2, setExample2] = useAtom(example2Atom);
+  const [example3, setExample3] = useAtom(example3Atom);
 
   // Step 7 상태
-  const [category, setCategory] = useState("");
-  const [spec, setSpec] = useState("");
-  const [delivery, setDelivery] = useState("");
+  const [category, setCategory] = useAtom(categoryAtom);
+  const [spec, setSpec] = useAtom(specAtom);
+  const [delivery, setDelivery] = useAtom(deliveryAtom);
 
   // Refs for Step 2
   const companyNameRef = useRef<HTMLTextAreaElement>(null);
@@ -212,8 +233,6 @@ export default function VoiceInputPage() {
   };
 
   const handleTranscriptionComplete = (data: TranscriptionResult) => {
-    console.log("Received data:", data);
-
     if (step === 1) {
       // Part1 데이터 처리
       if (data.company) setCompanyName(data.company);

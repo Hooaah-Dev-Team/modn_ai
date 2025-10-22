@@ -1,11 +1,19 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { AppBar, AppBarType } from "@/components/AppBar";
 
 export default function SubmissionCompletePage() {
+  const router = useRouter();
+
   return (
     <div className="flex h-[calc(100vh-20px)] flex-col">
-      <AppBar title="Step3. 디자인 완성" type={AppBarType.close} />
+      <AppBar
+        title="Step3. 디자인 완성"
+        type={AppBarType.close}
+        onClose={() => router.push("/")}
+      />
 
       <main className="mt-40 flex flex-1 flex-col items-center px-4 text-center">
         {/* 체크 아이콘 */}

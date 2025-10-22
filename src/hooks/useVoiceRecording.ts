@@ -1,6 +1,13 @@
 "use client";
 
+import { useSetAtom } from "jotai";
 import { useCallback, useRef, useState } from "react";
+
+import {
+  transcribedTextPart1Atom,
+  transcribedTextPart2Atom,
+  transcribedTextPart3Atom,
+} from "@/atoms/voiceInputAtoms";
 
 interface TranscriptionResult {
   [key: string]: string;
@@ -23,6 +30,11 @@ export const useVoiceRecording = ({
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
 
+  // Transcribed text atoms
+  const setTranscribedTextPart1 = useSetAtom(transcribedTextPart1Atom);
+  const setTranscribedTextPart2 = useSetAtom(transcribedTextPart2Atom);
+  const setTranscribedTextPart3 = useSetAtom(transcribedTextPart3Atom);
+
   const sendAudioToWhisper = useCallback(
     async (audioBlob: Blob) => {
       try {
@@ -37,12 +49,6 @@ export const useVoiceRecording = ({
         } else if (audioBlob.type.includes("wav")) {
           extension = "wav";
         }
-
-        console.log("전송할 오디오:", {
-          type: audioBlob.type,
-          size: audioBlob.size,
-          extension: extension,
-        });
 
         const formData = new FormData();
         formData.append(
@@ -68,6 +74,15 @@ export const useVoiceRecording = ({
           throw new Error("음성 인식 결과가 없습니다.");
         }
 
+        // transcribedText를 endpoint에 따라 저장
+        if (endpoint.includes("part1")) {
+          setTranscribedTextPart1(transcribedText);
+        } else if (endpoint.includes("part2")) {
+          setTranscribedTextPart2(transcribedText);
+        } else if (endpoint.includes("part3")) {
+          setTranscribedTextPart3(transcribedText);
+        }
+
         // 2단계: 변환된 텍스트를 지정된 엔드포인트로 전송
         const finalResponse = await fetch(
           process.env.NEXT_PUBLIC_DURUMO_BACKEND_BASE + endpoint,
@@ -85,7 +100,6 @@ export const useVoiceRecording = ({
         }
 
         const result = await finalResponse.json();
-        console.log(result);
         if (result) {
           onTranscriptionComplete?.(result.data);
         }
@@ -96,7 +110,14 @@ export const useVoiceRecording = ({
         setIsLoading(false);
       }
     },
-    [endpoint, onError, onTranscriptionComplete],
+    [
+      endpoint,
+      onError,
+      onTranscriptionComplete,
+      setTranscribedTextPart1,
+      setTranscribedTextPart2,
+      setTranscribedTextPart3,
+    ],
   );
 
   const startRecording = useCallback(async () => {
@@ -122,8 +143,6 @@ export const useVoiceRecording = ({
       } else if (MediaRecorder.isTypeSupported("audio/ogg;codecs=opus")) {
         mimeType = "audio/ogg;codecs=opus";
       }
-
-      console.log("사용할 오디오 형식:", mimeType);
 
       // MediaRecorder 생성
       const mediaRecorder = new MediaRecorder(stream, {

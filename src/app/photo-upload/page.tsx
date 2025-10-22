@@ -1,9 +1,16 @@
 "use client";
 
+import { useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+import {
+  productDetailImagesAtom,
+  productionSiteImagesAtom,
+  productUsageImagesAtom,
+  sellerImagesAtom,
+} from "@/atoms/voiceInputAtoms";
 import { AppBar, AppBarType } from "@/components/AppBar";
 import { uploadImages } from "@/utils/uploadImages";
 
@@ -55,6 +62,12 @@ export default function PhotoUploadPage() {
   const router = useRouter();
   const [sections, setSections] = useState<PhotoSection[]>(photoSections);
   const [isUploading, setIsUploading] = useState(false);
+
+  // Image atoms setters
+  const setProductDetailImages = useSetAtom(productDetailImagesAtom);
+  const setProductionSiteImages = useSetAtom(productionSiteImagesAtom);
+  const setSellerImages = useSetAtom(sellerImagesAtom);
+  const setProductUsageImages = useSetAtom(productUsageImagesAtom);
 
   const handleFileUpload = async (
     sectionId: string,
@@ -118,17 +131,23 @@ export default function PhotoUploadPage() {
   };
 
   const handleNext = () => {
-    // 모든 업로드된 URL 출력
-    console.log("===== 모든 섹션의 업로드된 이미지 =====");
+    // 각 섹션의 이미지를 atoms에 저장
     sections.forEach((section) => {
-      if (section.uploadedUrls.length > 0) {
-        console.log(`\n[${section.title}]`);
-        section.uploadedUrls.forEach((url, index) => {
-          console.log(`  ${index + 1}. ${url}`);
-        });
+      switch (section.id) {
+        case "product-detail":
+          setProductDetailImages(section.uploadedUrls);
+          break;
+        case "production-site":
+          setProductionSiteImages(section.uploadedUrls);
+          break;
+        case "seller":
+          setSellerImages(section.uploadedUrls);
+          break;
+        case "usage":
+          setProductUsageImages(section.uploadedUrls);
+          break;
       }
     });
-    console.log("====================================\n");
 
     router.push("/template-select");
   };

@@ -1,13 +1,26 @@
 "use client";
 
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef } from "react";
+import toast from "react-hot-toast";
 
+import { customUserTextAtom } from "@/atoms/voiceInputAtoms";
 import { AppBar, AppBarType } from "@/components/AppBar";
 
 export default function TextInputPage() {
   const router = useRouter();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useAtom(customUserTextAtom);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleSubmit = () => {
+    if (!inputValue.trim()) {
+      toast.error("글을 입력해주세요");
+      textareaRef.current?.focus();
+      return;
+    }
+    router.push("/category-select");
+  };
 
   return (
     <div className="flex h-[calc(100vh-20px)] flex-col">
@@ -22,6 +35,7 @@ export default function TextInputPage() {
         </h1>
         <div className="flex w-full flex-1 flex-col px-3">
           <textarea
+            ref={textareaRef}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             className="h-full w-full resize-none rounded-lg border-2 border-[#DBE0E5] bg-white p-1 outline-none focus:border-[#121417]"
@@ -29,7 +43,7 @@ export default function TextInputPage() {
         </div>
         <div className="h-5" />
         <button
-          onClick={() => router.push("/category-select")}
+          onClick={handleSubmit}
           className="my-3 h-12 w-full rounded-full bg-[#0A80ED]"
         >
           <span className="leading-normal font-bold text-white">확인</span>
