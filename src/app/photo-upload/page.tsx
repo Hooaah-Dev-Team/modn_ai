@@ -19,7 +19,7 @@ const photoSections: PhotoSection[] = [
   {
     id: "product-detail",
     title: "상품 상세 사진",
-    description: "전체, 상세, 포장된 모습 등 약 7장",
+    description: "전체, 상세, 포장된 모습 등",
     count: "약 7장",
     photos: [],
     uploadedUrls: [],
