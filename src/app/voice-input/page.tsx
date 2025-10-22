@@ -185,6 +185,12 @@ export default function VoiceInputPage() {
   };
 
   const goToNextStep = () => {
+    // step 1 완료 후 카테고리 선택 페이지로 이동
+    if (step === 1) {
+      router.push("/category-select");
+      return;
+    }
+
     // 입력 페이지에서 유효성 검사
     if (step === 2 && !validateStep2()) return;
     if (step === 4 && !validateStep4()) return;

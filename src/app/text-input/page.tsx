@@ -29,7 +29,7 @@ export default function TextInputPage() {
         </div>
         <div className="h-5" />
         <button
-          onClick={() => router.push("/voice-input")}
+          onClick={() => router.push("/category-select")}
           className="my-3 h-12 w-full rounded-full bg-[#0A80ED]"
         >
           <span className="leading-normal font-bold text-white">확인</span>
