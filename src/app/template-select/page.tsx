@@ -1,8 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AppBar, AppBarType } from "@/components/AppBar";
+
+import BasicIcon from "@/assets/icons/basic.png";
+import EmotionalIcon from "@/assets/icons/emotional.png";
+import VisualIcon from "@/assets/icons/visual.png";
 
 const templates = [
   {
@@ -10,21 +15,21 @@ const templates = [
     title: "상품 정보 한눈에 보기",
     subtitle: "Basic Info First",
     description: "제품 사진과 이름, 기본 정보를 한눈에 보여주는 구성",
-    mockupColor: "bg-[#F5F5F5]", // placeholder 색상
+    icon: BasicIcon,
   },
   {
     id: "emotional-story",
     title: "감성 스토리 중심",
     subtitle: "Emotional Storytelling",
     description: "브랜드 이미지와 감성 이미지로 따뜻하게 전하는 상품 소개",
-    mockupColor: "bg-[#F0F0F0]", // placeholder 색상
+    icon: EmotionalIcon,
   },
   {
     id: "visual-showcase",
     title: "비주얼 중심",
     subtitle: "Visual Showcase",
     description: "고해상도 이미지 중심, 텍스트 최소화로 시각적 임팩트를 강조",
-    mockupColor: "bg-[#F8F8F8]", // placeholder 색상
+    icon: VisualIcon,
   },
 ];
 
@@ -35,7 +40,7 @@ export default function TemplateSelectPage() {
   const handleNext = () => {
     if (selectedTemplate) {
       // TODO: 선택된 템플릿을 다음 페이지로 전달하고 로딩 표시
-      router.push("/");
+      router.push("/loading-design");
     }
   };
 
@@ -66,19 +71,15 @@ export default function TemplateSelectPage() {
               }`}
             >
               {/* 목업 이미지 - 텍스트 위에 크게 */}
-              <div className="mb-4 h-48 w-full rounded-xl border border-[#E5E8EB] bg-white">
-                <div
-                  className={`h-full w-full rounded-lg ${template.mockupColor} flex items-center justify-center`}
-                >
-                  <div className="text-center">
-                    <div className="mb-1 text-sm text-[#9CA3AF]">
-                      Mobile Mockup
-                    </div>
-                    <div className="text-sm text-[#9CA3AF]">
-                      {template.title}
-                    </div>
-                  </div>
-                </div>
+              <div className="relative mb-4 h-48 w-full overflow-hidden rounded-xl">
+                <Image
+                  src={template.icon}
+                  alt={template.title}
+                  fill
+                  className="object-cover"
+                  quality={100}
+                  priority
+                />
               </div>
 
               {/* 템플릿 제목 */}
