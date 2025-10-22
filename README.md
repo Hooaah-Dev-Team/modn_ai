@@ -1,6 +1,6 @@
-# MODN AI - 음성 입력 프로젝트
+# MODN AI - 상품 상세페이지 생성 프로젝트
 
-Next.js 15 + React 19 기반의 음성 인식(Whisper API) 프로젝트입니다.
+Next.js 15 + React 19 기반의 AI 기반 상품 상세페이지 자동 생성 프로젝트입니다.
 
 ## 주요 기능
 
@@ -10,21 +10,23 @@ Next.js 15 + React 19 기반의 음성 인식(Whisper API) 프로젝트입니다
 - Whisper API를 활용한 음성-텍스트 변환
 - 재사용 가능한 컴포넌트 구조
 
+📸 **이미지 업로드 기능**
+
+- 다중 이미지 업로드 지원
+- 카테고리별 이미지 관리 (상품 상세, 생산 현장, 판매자, 사용 사진)
+- 서버를 통한 안전한 업로드
+
 ## 시작하기
 
 ### 1. 환경 변수 설정
 
-`.env.local.example` 파일을 복사하여 `.env.local` 파일을 생성하고 백엔드 URL을 설정하세요:
-
-```bash
-cp .env.local.example .env.local
-```
-
-`.env.local` 파일에서 백엔드 URL을 수정:
+`.env.local` 파일을 생성하고 백엔드 URL을 설정하세요:
 
 ```env
 DURUMO_BACKEND_BASE=https://your-actual-backend-url.com
 ```
+
+> **참고**: API Route에서만 사용하는 환경변수이므로 `NEXT_PUBLIC_` 접두사가 필요 없습니다.
 
 ### 2. 패키지 설치
 

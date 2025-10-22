@@ -2,7 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { AppBar, AppBarType } from "@/components/AppBar";
+import { uploadImages } from "@/utils/uploadImages";
 
 interface PhotoSection {
   id: string;
@@ -10,6 +12,7 @@ interface PhotoSection {
   description: string;
   count: string;
   photos: File[];
+  uploadedUrls: string[];
 }
 
 const photoSections: PhotoSection[] = [
@@ -19,6 +22,7 @@ const photoSections: PhotoSection[] = [
     description: "전체, 상세, 포장된 모습 등 약 7장",
     count: "약 7장",
     photos: [],
+    uploadedUrls: [],
   },
   {
     id: "production-site",
@@ -26,6 +30,7 @@ const photoSections: PhotoSection[] = [
     description: "",
     count: "약 5장",
     photos: [],
+    uploadedUrls: [],
   },
   {
     id: "seller",
@@ -33,6 +38,7 @@ const photoSections: PhotoSection[] = [
     description: "",
     count: "약 3장",
     photos: [],
+    uploadedUrls: [],
   },
   {
     id: "usage",
@@ -40,17 +46,24 @@ const photoSections: PhotoSection[] = [
     description: "요리, 사용 모습 등",
     count: "약 3장",
     photos: [],
+    uploadedUrls: [],
   },
 ];
 
 export default function PhotoUploadPage() {
   const router = useRouter();
   const [sections, setSections] = useState<PhotoSection[]>(photoSections);
+  const [isUploading, setIsUploading] = useState(false);
 
-  const handleFileUpload = (sectionId: string, files: FileList | null) => {
+  const handleFileUpload = async (
+    sectionId: string,
+    files: FileList | null,
+  ) => {
     if (!files) return;
 
     const newFiles = Array.from(files);
+
+    // 먼저 UI에 파일 추가
     setSections((prev) =>
       prev.map((section) =>
         section.id === sectionId
@@ -58,6 +71,33 @@ export default function PhotoUploadPage() {
           : section,
       ),
     );
+
+    // 서버에 업로드
+    setIsUploading(true);
+    try {
+      const uploadedUrls = await uploadImages(newFiles);
+
+      if (uploadedUrls) {
+        setSections((prev) =>
+          prev.map((section) =>
+            section.id === sectionId
+              ? {
+                  ...section,
+                  uploadedUrls: [...section.uploadedUrls, ...uploadedUrls],
+                }
+              : section,
+          ),
+        );
+        toast.success(`${newFiles.length}개의 사진이 업로드되었습니다`);
+      } else {
+        toast.error("사진 업로드에 실패했습니다");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error("사진 업로드 중 오류가 발생했습니다");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const removePhoto = (sectionId: string, photoIndex: number) => {
@@ -67,6 +107,9 @@ export default function PhotoUploadPage() {
           ? {
               ...section,
               photos: section.photos.filter((_, index) => index !== photoIndex),
+              uploadedUrls: section.uploadedUrls.filter(
+                (_, index) => index !== photoIndex,
+              ),
             }
           : section,
       ),
@@ -74,7 +117,18 @@ export default function PhotoUploadPage() {
   };
 
   const handleNext = () => {
-    // TODO: 다음 단계로 이동
+    // 모든 업로드된 URL 출력
+    console.log("===== 모든 섹션의 업로드된 이미지 =====");
+    sections.forEach((section) => {
+      if (section.uploadedUrls.length > 0) {
+        console.log(`\n[${section.title}]`);
+        section.uploadedUrls.forEach((url, index) => {
+          console.log(`  ${index + 1}. ${url}`);
+        });
+      }
+    });
+    console.log("====================================\n");
+
     router.push("/template-select");
   };
 
@@ -206,9 +260,12 @@ export default function PhotoUploadPage() {
         <div className="mt-6">
           <button
             onClick={handleNext}
-            className="h-14 w-full rounded-full bg-[#0A80ED] font-bold text-white"
+            disabled={isUploading}
+            className={`h-14 w-full rounded-full font-bold text-white transition-all ${
+              isUploading ? "cursor-not-allowed bg-[#B0B8C1]" : "bg-[#0A80ED]"
+            }`}
           >
-            다음
+            {isUploading ? "업로드 중..." : "다음"}
           </button>
         </div>
       </main>
