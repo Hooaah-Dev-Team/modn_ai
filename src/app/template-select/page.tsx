@@ -12,23 +12,23 @@ import { AppBar, AppBarType } from "@/components/AppBar";
 const templates = [
   {
     id: "basic-info",
-    title: "상품 정보 한눈에 보기",
-    subtitle: "Basic Info First",
-    description: "제품 사진과 이름, 기본 정보를 한눈에 보여주는 구성",
+    title: "원료 중심형",
+    subtitle: "Ingredient Story",
+    description: "재료 자체의 이야기와 특징을 강조하는 상세페이지",
     icon: BasicIcon,
   },
   {
     id: "emotional-story",
-    title: "감성 스토리 중심",
-    subtitle: "Emotional Storytelling",
-    description: "브랜드 이미지와 감성 이미지로 따뜻하게 전하는 상품 소개",
+    title: "과정 강조형",
+    subtitle: "From Hand to Heart",
+    description: "제품을 만드는 과정을 강조하는 상세페이지",
     icon: EmotionalIcon,
   },
   {
     id: "visual-showcase",
-    title: "비주얼 중심",
-    subtitle: "Visual Showcase",
-    description: "고해상도 이미지 중심, 텍스트 최소화로 시각적 임팩트를 강조",
+    title: "효과 강조형",
+    subtitle: "Power in Proof",
+    description: "제품의 효과를 강조하는 상세페이지",
     icon: VisualIcon,
   },
 ];
@@ -54,7 +54,7 @@ export default function TemplateSelectPage() {
 
       <main className="flex flex-1 flex-col px-4 pb-4">
         {/* 안내 문구 */}
-        <h1 className="mt-6 mb-6 text-xl font-medium text-[#121417]">
+        <h1 className="mt-6 mb-6 text-center text-xl font-medium text-[#121417]">
           아래 중 원하는 스타일을 선택해 주세요!
         </h1>
 
@@ -86,11 +86,10 @@ export default function TemplateSelectPage() {
                 <h3 className="text-lg font-bold text-[#121417]">
                   {template.title}
                 </h3>
-                <p className="text-sm text-[#6B7684]">{template.subtitle}</p>
+                <p className="text-sm text-[#6B7684]">{template.description}</p>
               </div>
-
+              <p className="text-sm text-[#6B7684]">{template.subtitle}</p>
               {/* 설명 */}
-              <p className="text-sm text-[#6B7684]">{template.description}</p>
             </button>
           ))}
         </div>
